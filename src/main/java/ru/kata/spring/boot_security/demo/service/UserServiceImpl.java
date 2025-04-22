@@ -38,9 +38,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void saveUser(User user) {
-        if (!user.getPassword().matches("\\A\\$2(a|y|b)?\\$(\\d\\d)\\$[./0-9A-Za-z]{53}")) {
+       // if (!user.getPassword().matches("\\A\\$2(a|y|b)?\\$(\\d\\d)\\$[./0-9A-Za-z]{53}")) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-        }
+       // }
         user.setRoles(resolveRoles(user.getRoles()));
         userRepository.save(user);
     }
@@ -48,9 +48,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void updateUser(User user) {
-        if (!user.getPassword().matches("\\A\\$2(a|y|b)?\\$(\\d\\d)\\$[./0-9A-Za-z]{53}")) {
+        // if (!user.getPassword().matches("\\A\\$2(a|y|b)?\\$(\\d\\d)\\$[./0-9A-Za-z]{53}")) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-        }
+       // }
         user.setRoles(resolveRoles(user.getRoles()));
         userRepository.save(user);
     }

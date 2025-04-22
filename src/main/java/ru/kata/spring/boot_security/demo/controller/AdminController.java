@@ -8,56 +8,6 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
-//
-//@Controller
-//@RequestMapping("/admin")
-//public class AdminController {
-//
-//    private final UserService userService;
-//
-//    public AdminController(UserService userService) {
-//        this.userService = userService;
-//    }
-//
-//    @GetMapping
-//    public String admin(Model model) {
-//        model.addAttribute("users", userService.getAllUsers());
-//        model.addAttribute("allRoles", userService.getAllRoles());
-//        return "admin";
-//    }
-//
-//    @GetMapping("/new")
-//    public String showCreateUserForm(Model model) {
-//        model.addAttribute("user", new User());
-//        return "user-details";
-//    }
-//
-//    @PostMapping
-//    public String saveUser(@ModelAttribute("user") User user) {
-//        userService.saveUser(user);
-//        return "redirect:/admin";
-//    }
-//
-//    @GetMapping("/edit")
-//    public String getUserById(@RequestParam("id") int id, Model model) {
-//        model.addAttribute("user", userService.getUserById(id));
-//        model.addAttribute("allRoles", userService.getAllRoles());
-//        return "user-edit";
-//    }
-//
-//    @PostMapping("/update")
-//    public String updateUser(@ModelAttribute("user") User user) {
-//        userService.updateUser(user);
-//        return "redirect:/admin";
-//    }
-//
-//    @GetMapping("/delete")
-//    public String deleteUser(@RequestParam("id") int id) {
-//        userService.deleteUser(id);
-//        return "redirect:/admin";
-//    }
-//
-//}
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
