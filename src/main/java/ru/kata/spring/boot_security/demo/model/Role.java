@@ -17,13 +17,24 @@ public class Role implements GrantedAuthority {
     @Column(unique = true)
     private String name;
 
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-    private Set<User> users;
+    // @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+    //private Set<User> users;
 
-    public Role() {}
+    public Role() {
+
+    }
+
+    public Role(Long id) {
+        this.id = id;
+    }
 
     public Role(String name) {
         this.name = name;
+    }
+
+    public Role(String name, Long id) {
+        this.name = name;
+        this.id = id;
     }
 
     @Override
@@ -39,7 +50,7 @@ public class Role implements GrantedAuthority {
         return name;
     }
 
-    public String getDisplayName() {
+    public String getRole() {
         return name.replace("ROLE_", "");
     }
 
@@ -51,13 +62,13 @@ public class Role implements GrantedAuthority {
         this.name = name;
     }
 
-    public Set<User> getUsers() {
-        return users;
-    }
+  //  public Set<User> getUsers() {
+  //      return users;
+  //  }
 
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
+   // public void setUsers(Set<User> users) {
+   //     this.users = users;
+   // }
 
 
     @Override
@@ -76,7 +87,7 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String toString() {
-        return getDisplayName();
+        return getRole();
     }
 }
 

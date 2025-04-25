@@ -57,12 +57,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void deleteUser(int id) {
+    public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
 
     @Override
-    public User getUserById(int id) {
+    public User getUserById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
 
@@ -73,8 +73,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Object getAllRoles() {
-        return null;
+    public List<Role>  getAllRoles() {
+        return roleRepository.findAll();
     }
 
     private Set<Role> resolveRoles(Set<Role> roles) {
