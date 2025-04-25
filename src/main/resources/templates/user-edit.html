@@ -26,7 +26,7 @@
                th:field="*{roles}"
                th:value="${role.id}"
                id="role__${role.id}"/>
-        <label th:for="'role__' + ${role.id}" th:text="${role.role}"></label><br/>
+        <label th:for="'role__' + ${role.id}" th:text="${role.roleAsString}"></label><br/>
     </div>
 
     <button type="submit" th:text="${user.id != null} ? 'Update' : 'Create'"></button>

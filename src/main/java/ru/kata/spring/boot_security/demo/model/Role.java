@@ -17,24 +17,12 @@ public class Role implements GrantedAuthority {
     @Column(unique = true)
     private String name;
 
-    // @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-    //private Set<User> users;
-
     public Role() {
 
     }
 
-    public Role(Long id) {
-        this.id = id;
-    }
-
     public Role(String name) {
         this.name = name;
-    }
-
-    public Role(String name, Long id) {
-        this.name = name;
-        this.id = id;
     }
 
     @Override
@@ -50,7 +38,7 @@ public class Role implements GrantedAuthority {
         return name;
     }
 
-    public String getRole() {
+    public String getRoleAsString() {
         return name.replace("ROLE_", "");
     }
 
@@ -62,22 +50,11 @@ public class Role implements GrantedAuthority {
         this.name = name;
     }
 
-  //  public Set<User> getUsers() {
-  //      return users;
-  //  }
-
-   // public void setUsers(Set<User> users) {
-   //     this.users = users;
-   // }
-
-
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Role)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Role role = (Role) o;
-        return Objects.equals(id, role.id) &&
-                Objects.equals(name, role.name);
+        return Objects.equals(id, role.id) && Objects.equals(name, role.name);
     }
 
     @Override
@@ -85,9 +62,10 @@ public class Role implements GrantedAuthority {
         return Objects.hash(id, name);
     }
 
+
     @Override
     public String toString() {
-        return getRole();
+        return getRoleAsString();
     }
 }
 

@@ -22,7 +22,7 @@ public class inDataBaseInitializer {
     private final RoleService roleService;
 
     @Autowired
-    public inDataBaseInitializer(  BCryptPasswordEncoder passwordEncoder, UserService userService, RoleService roleService ) {
+    public inDataBaseInitializer(BCryptPasswordEncoder passwordEncoder, UserService userService, RoleService roleService) {
         this.passwordEncoder = passwordEncoder;
         this.userService = userService;
         this.roleService = roleService;
@@ -38,12 +38,12 @@ public class inDataBaseInitializer {
         roleService.save(userRole);
 
 
-        User admin = new User("admin", "admin",passwordEncoder.encode("admin"));
+        User admin = new User("admin", "admin", "admin");
         admin.setRoles(Set.of(adminRole, userRole));
         userService.saveUser(admin);
 
 
-        User user = new User("user", "user", passwordEncoder.encode("user"));
+        User user = new User("user", "user", "user");
         user.setRoles(Set.of(userRole));
         userService.saveUser(user);
     }
