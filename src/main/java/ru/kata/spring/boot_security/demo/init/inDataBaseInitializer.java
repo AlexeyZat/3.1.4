@@ -2,11 +2,8 @@ package ru.kata.spring.boot_security.demo.init;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
-import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
@@ -16,17 +13,13 @@ import java.util.Set;
 @Configuration
 public class inDataBaseInitializer {
 
-
-    private final BCryptPasswordEncoder passwordEncoder;
     private final UserService userService;
     private final RoleService roleService;
 
     @Autowired
-    public inDataBaseInitializer(BCryptPasswordEncoder passwordEncoder, UserService userService, RoleService roleService) {
-        this.passwordEncoder = passwordEncoder;
+    public inDataBaseInitializer(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
-
     }
 
     @PostConstruct
@@ -37,14 +30,19 @@ public class inDataBaseInitializer {
         roleService.save(adminRole);
         roleService.save(userRole);
 
-
         User admin = new User("admin", "admin", "admin");
+        admin.setLastName("Adminov");
+        admin.setEmail("admin@mail.ru");
+        admin.setAge(35);
         admin.setRoles(Set.of(adminRole, userRole));
         userService.saveUser(admin);
 
-
         User user = new User("user", "user", "user");
+        user.setLastName("Userov");
+        user.setEmail("user@mail.ru");
+        user.setAge(30);
         user.setRoles(Set.of(userRole));
         userService.saveUser(user);
     }
 }
+
