@@ -24,6 +24,7 @@ public class AdminController {
     @GetMapping
     public String admin(Model model) {
         model.addAttribute("users", userService.getAllUsers());
+        model.addAttribute("user", new User());
         model.addAttribute("allRoles", userService.getAllRoles());
         return "admin";
     }
@@ -54,11 +55,10 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/delete")
-    public String deleteUser(@RequestParam("id") Long id) {
+    @PostMapping("/delete")
+    public String deleteUserPost(@RequestParam("id") Long id) {
         userService.deleteUser(id);
         return "redirect:/admin";
-
     }
 
 }
