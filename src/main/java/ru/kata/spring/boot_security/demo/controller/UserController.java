@@ -29,6 +29,12 @@ public class UserController {
         return "user-page";
     }
 
+    @GetMapping("/api/user")
+    @ResponseBody
+    public User getCurrentUser(Principal principal) {
+        return userService.findByUsername(principal.getName());
+    }
+
 }
 
 
