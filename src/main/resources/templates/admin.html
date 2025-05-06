@@ -153,14 +153,14 @@
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td>${user.id}</td>
-                        <td>${user.name}</td>
+                        <td>${user.name}</td> <!-- ИСПРАВЛЕНО -->
                         <td>${user.lastName}</td>
                         <td>${user.age}</td>
                         <td>${user.email}</td>
-                        <td>${user.roles.map(r => r.name.replace('ROLE_', '')).join(', ')}</td>
+                        <td>${user.roles.map(role => role.name.replace('ROLE_', '')).join(', ')}</td>
                         <td>
-                            <button class="btn btn-primary btn-sm" onclick="openEditModal(${user.id})">Edit</button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteUser(${user.id})">Delete</button>
+                            <button class="btn btn-sm btn-info" onclick="showEditModal(${user.id})">Edit</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteUser(${user.id})">Delete</button>
                         </td>
                     `;
                     tbody.appendChild(row);
@@ -168,31 +168,42 @@
             });
     }
 
-    function openEditModal(id) {
+    function showEditModal(id) {
         fetch(`/api/admin/users/${id}`)
             .then(res => res.json())
             .then(user => {
                 document.getElementById('edit-id').value = user.id;
-                document.getElementById('edit-name').value = user.name;
+                document.getElementById('edit-name').value = user.name; // ИСПРАВЛЕНО
                 document.getElementById('edit-lastName').value = user.lastName;
                 document.getElementById('edit-age').value = user.age;
                 document.getElementById('edit-email').value = user.email;
                 document.getElementById('edit-username').value = user.username;
                 document.getElementById('edit-password').value = '';
-                setSelectedRoles('edit-roles', user.roles);
+                renderRolesSelect('edit-roles', user.roles);
                 new bootstrap.Modal(document.getElementById('editModal')).show();
             });
     }
 
     function deleteUser(id) {
-        if (confirm('vi yverinu v ydalenie?')) {
-            fetch(`/api/admin/users/${id}`, {
-                method: 'DELETE'
-            }).then(() => loadUsers());
-        }
+        fetch(`/api/admin/users/${id}`, { method: 'DELETE' })
+            .then(() => loadUsers());
     }
 
-    function renderRolesSelect(selectId) {
+    function getUserFromForm(prefix) {
+        const form = {
+            name: document.getElementById(`${prefix}-name`).value, // ИСПРАВЛЕНО
+            lastName: document.getElementById(`${prefix}-lastName`).value,
+            age: parseInt(document.getElementById(`${prefix}-age`).value),
+            email: document.getElementById(`${prefix}-email`).value,
+            username: document.getElementById(`${prefix}-username`).value,
+            password: document.getElementById(`${prefix}-password`).value,
+            roles: Array.from(document.getElementById(`${prefix}-roles`).selectedOptions)
+                .map(option => ({ id: option.value }))
+        };
+        return form;
+    }
+
+    function renderRolesSelect(selectId, selectedRoles = []) {
         fetch('/api/admin/roles')
             .then(res => res.json())
             .then(roles => {
@@ -201,36 +212,18 @@
                 roles.forEach(role => {
                     const option = document.createElement('option');
                     option.value = role.id;
-                    option.textContent = role.name.replace('ROLE_', '');
+                    option.text = role.name.replace('ROLE_', '');
+                    if (selectedRoles.some(r => r.id == role.id)) {
+                        option.selected = true;
+                    }
                     select.appendChild(option);
                 });
             });
     }
-
-    function setSelectedRoles(selectId, roles) {
-        const select = document.getElementById(selectId);
-        const selectedIds = roles.map(r => r.id.toString());
-        Array.from(select.options).forEach(opt => {
-            opt.selected = selectedIds.includes(opt.value);
-        });
-    }
-
-    function getUserFromForm(prefix) {
-        return {
-            id: document.getElementById(`${prefix}-id`)?.value,
-            name: document.getElementById(`${prefix}-name`).value,
-            lastName: document.getElementById(`${prefix}-lastName`).value,
-            age: document.getElementById(`${prefix}-age`).value,
-            email: document.getElementById(`${prefix}-email`).value,
-            username: document.getElementById(`${prefix}-username`).value,
-            password: document.getElementById(`${prefix}-password`).value,
-            roles: Array.from(document.getElementById(`${prefix}-roles`).selectedOptions).map(o => ({id: o.value}))
-        };
-    }
 </script>
-
 </body>
 </html>
+
 
 
 

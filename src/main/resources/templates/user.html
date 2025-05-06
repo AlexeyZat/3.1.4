@@ -27,6 +27,10 @@
                 <li class="nav-item">
                     <button class="btn btn-outline-primary w-100" disabled>User Info</button>
                 </li>
+
+                <li class="nav-item mt-2" sec:authorize="hasRole('ADMIN')">
+                    <a class="btn btn-outline-secondary w-100" href="/admin">Admin Panel</a>
+                </li>
             </ul>
         </div>
 
@@ -87,4 +91,5 @@
 
 </body>
 </html>
+
 
