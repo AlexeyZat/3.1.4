@@ -30,11 +30,7 @@ public class AdminRestController {
     @GetMapping("/users/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         User user = userService.getUserById(id);
-        if (user != null) {
-            return ResponseEntity.ok(user);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return user != null ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
     }
 
     @PostMapping("/users")
@@ -45,8 +41,7 @@ public class AdminRestController {
 
     @PutMapping("/users/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
-        User existingUser = userService.getUserById(id);
-        if (existingUser == null) {
+        if (userService.getUserById(id) == null) {
             return ResponseEntity.notFound().build();
         }
         user.setId(id);
@@ -64,11 +59,11 @@ public class AdminRestController {
         }
     }
 
-
     @GetMapping("/roles")
     public ResponseEntity<List<Role>> getAllRoles() {
         return ResponseEntity.ok(roleService.getRoles());
     }
 }
+
 
 
